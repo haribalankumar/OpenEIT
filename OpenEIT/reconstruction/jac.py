@@ -30,7 +30,7 @@ class JacReconstruction:
     Configurable wrapper to pyEIT 
 
     """
-    def __init__(self,n_el):
+    def __init__(self,n_el,h0):
         # setup EIT scan conditions
         self.img = []
         self.baseline_flag = None
@@ -45,13 +45,14 @@ class JacReconstruction:
         self.pts = None
         self.tri = None
         self.f0  = None
-        self.reset(n_el)
+        self.h0  = None
+        self.reset(n_el,h0)
 
-    def reset(self,n_el):
+    def reset(self,n_el,h0):
 
         self.img = []
         self.baseline_flag = None
-        self.n_el = None
+#       self.n_el = None
         self.el_dist = None
         self.step = None
         self.ex_mat = None
@@ -65,6 +66,8 @@ class JacReconstruction:
 
         self.baseline_flag = 1
         self.n_el = n_el # number of electrodes. 
+        self.h0 = h0 # mesh size
+
         self.el_dist = int(self.n_el/2)
         self.step = 1 
         # we create this according to an opposition protocol to maximize contrast. 
@@ -72,7 +75,7 @@ class JacReconstruction:
 
         """ 0. construct mesh """
         # h0 is initial mesh size. , h0=0.1
-        self.mesh_obj, self.el_pos = mesh.create(n_el)
+        self.mesh_obj, self.el_pos = mesh.create(n_el, None, None, None, None, h0)
 
         """ 3. Set Up JAC """
         self.eit = jacobian(self.mesh_obj, self.el_pos, ex_mat=self.ex_mat, step=self.step,perm=1.)

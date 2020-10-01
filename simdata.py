@@ -22,7 +22,7 @@ import OpenEIT.reconstruction
 
 """ GREIT calls """
 # initialize all parameters. 
-g = OpenEIT.reconstruction.GreitReconstruction(n_el=32)
+g = OpenEIT.reconstruction.GreitReconstruction(n_el=16)
 
 # variables needed to set up the forward simulation of data. 
 mesh_obj = g.mesh_obj
